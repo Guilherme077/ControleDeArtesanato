@@ -23,15 +23,15 @@ namespace ControleDeArtesanato
 
         public void RegistraPedido()
         {
-            
-                string[] data = txtPrazo.Text.Split('/');
-                int dia = int.Parse(data[0]);
-                int mes = int.Parse(data[1]);
-                int ano = int.Parse(data[2]);
 
-                pedidos.AddLinha(new Pedido(txtNomeCliente.Text, txtNomeProduto.Text, txtDescricao.Text, double.Parse(txtValor.Text), DateTime.Now.Date, new DateTime(ano, mes, dia)).ToString());
-            
-            
+            string[] data = txtPrazo.Text.Split('/');
+            int dia = int.Parse(data[0]);
+            int mes = int.Parse(data[1]);
+            int ano = int.Parse(data[2]);
+
+            pedidos.AddLinha(new Pedido(txtNomeCliente.Text, txtNomeProduto.Text, txtDescricao.Text, double.Parse(txtValor.Text), DateTime.Now.Date, new DateTime(ano, mes, dia)).ToString());
+
+
         }
 
         public void ConcluiPedido()
@@ -95,15 +95,15 @@ namespace ControleDeArtesanato
             if (txtNomeCliente.Text.Length <= 30 && txtNomeProduto.Text.Length <= 30 && txtDescricao.Text.Length <= 50 && txtValor.Text.Length <= 9 && txtPrazo.Text.Length <= 12)
             {
                 try
-            {
-                RegistraPedido();
-                atualizarPropiedades();
-                MessageBox.Show("O Pedido foi registrado com sucesso e adicionado a lista de pedidos.", "Registrado com sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch
-            {
-                MessageBox.Show("Houve um erro na execução (RegistraPedido).", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                {
+                    RegistraPedido();
+                    atualizarPropiedades();
+                    MessageBox.Show("O Pedido foi registrado com sucesso e adicionado a lista de pedidos.", "Registrado com sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch
+                {
+                    MessageBox.Show("Houve um erro na execução (RegistraPedido).", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
@@ -136,7 +136,7 @@ namespace ControleDeArtesanato
                 int item = 0; // 0 até 6
                 foreach (string ped in textped)
                 {
-                    
+
                     int nesp = 0;
                     novoPed += ped;
                     switch (item)
@@ -154,18 +154,18 @@ namespace ControleDeArtesanato
                     {
                         novoPed += " ";
                     }
-                   
+
                     if (item >= 6)
                     {
-                        
+
                         item = 0;
                     }
                     else
                     {
                         item++;
                     }
-                    
-                    
+
+
                 }
 
                 int itemEnt = 0; // 0 até 7
@@ -190,7 +190,7 @@ namespace ControleDeArtesanato
                     {
                         novoEnt += " ";
                     }
-                    
+
                     if (itemEnt >= 7)
                     {
 
@@ -231,6 +231,11 @@ namespace ControleDeArtesanato
         private void label11_Click(object sender, EventArgs e)
         {
             MessageBox.Show(label11.Text + "\n \n ©2024 Guilherme P. Moreira. \n Feito para: Rosangela. \n\n guilhermepmoreira.com\ngui@guilhermepmoreira.com", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
