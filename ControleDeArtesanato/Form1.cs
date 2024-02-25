@@ -23,21 +23,24 @@ namespace ControleDeArtesanato
 
         public void RegistraPedido()
         {
-            string[] data = txtPrazo.Text.Split('/');
-            int dia = int.Parse(data[0]);
-            int mes = int.Parse(data[1]);
-            int ano = int.Parse(data[2]);
+            
+                string[] data = txtPrazo.Text.Split('/');
+                int dia = int.Parse(data[0]);
+                int mes = int.Parse(data[1]);
+                int ano = int.Parse(data[2]);
 
-            pedidos.AddLinha(new Pedido(txtNomeCliente.Text, txtNomeProduto.Text, txtDescricao.Text, double.Parse(txtValor.Text), DateTime.Now.Date, new DateTime(ano, mes, dia)).ToString());
+                pedidos.AddLinha(new Pedido(txtNomeCliente.Text, txtNomeProduto.Text, txtDescricao.Text, double.Parse(txtValor.Text), DateTime.Now.Date, new DateTime(ano, mes, dia)).ToString());
+            
+            
         }
 
         public void ConcluiPedido()
         {
             string prodId = txtID.Text;
-            int localizacao = txtPedidos.Text.IndexOf(prodId);
+            int localizacao = pedidos.GetLinha().IndexOf(prodId);
             if (localizacao != -1)
             {
-                string[] textofiltrado = txtPedidos.Text.Substring(localizacao).Split("     ");
+                string[] textofiltrado = pedidos.GetLinha().Substring(localizacao).Split("     ");
                 string id = textofiltrado[0];
                 string nomeCli = textofiltrado[1];
                 string nomeProd = textofiltrado[2];
@@ -52,7 +55,7 @@ namespace ControleDeArtesanato
                     try
                     {
                         entregas.AddLinha(new Pedido(id, nomeCli, nomeProd, desc, val, dtEnc, dtPrev, dtEntrega).ToString());
-                        pedidos.RemoveLinha(id + "     " + nomeCli + "     " + nomeProd + "    " + desc + "    " + val.ToString() + "    " + dtEnc.ToString("dd/MM/yyyy") + "    " + dtPrev.ToString("dd/MM/yyyy"));
+                        pedidos.RemoveLinha("     " + id + "     " + nomeCli + "     " + nomeProd + "     " + desc + "     " + val.ToString() + "     " + dtEnc.ToString("dd/MM/yyyy") + "     " + dtPrev.ToString("dd/MM/yyyy"));
                         MessageBox.Show("O pedido foi concluído e enviado a lista de entregues", "Concluido com sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch { MessageBox.Show("Um erro interno ocorreu (entregas.AddLinha)", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -89,7 +92,9 @@ namespace ControleDeArtesanato
 
         private void btnRegEnc_Click(object sender, EventArgs e)
         {
-            try
+            if (txtNomeCliente.Text.Length <= 30 && txtNomeProduto.Text.Length <= 30 && txtDescricao.Text.Length <= 50 && txtValor.Text.Length <= 9 && txtPrazo.Text.Length <= 12)
+            {
+                try
             {
                 RegistraPedido();
                 atualizarPropiedades();
@@ -98,6 +103,11 @@ namespace ControleDeArtesanato
             catch
             {
                 MessageBox.Show("Houve um erro na execução (RegistraPedido).", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            }
+            else
+            {
+                MessageBox.Show("Numero máximo de caracteres não respeitado em alguma propiedade!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -117,8 +127,84 @@ namespace ControleDeArtesanato
         {
             try
             {
-                txtPedidos.Text = pedidos.GetLinha();
-                txtEntregas.Text = entregas.GetLinha();
+                string texto = pedidos.GetLinha().Trim();
+                string texto2 = entregas.GetLinha().Trim();
+                string[] textped = texto.Split("     ");
+                string[] textEnt = texto2.Split("     ");
+                string novoPed = "";
+                string novoEnt = "";
+                int item = 0; // 0 até 6
+                foreach (string ped in textped)
+                {
+                    
+                    int nesp = 0;
+                    novoPed += ped;
+                    switch (item)
+                    {
+                        case 0: nesp = 12; break; //ID
+                        case 1: nesp = 30; break; //Cliente
+                        case 2: nesp = 30; break; // Produto
+                        case 3: nesp = 50; break; // Desc
+                        case 4: nesp = 9; break; // Valor
+                        case 5: nesp = 12; break; // Data
+                        case 6: nesp = 12; break; // Data
+                        default: nesp = 12; break;
+                    }
+                    for (int i = 0; i < (nesp - ped.Length); i++)
+                    {
+                        novoPed += " ";
+                    }
+                   
+                    if (item >= 6)
+                    {
+                        
+                        item = 0;
+                    }
+                    else
+                    {
+                        item++;
+                    }
+                    
+                    
+                }
+
+                int itemEnt = 0; // 0 até 7
+                foreach (string ent in textEnt)
+                {
+
+                    int nesp = 0;
+                    novoEnt += ent;
+                    switch (itemEnt)
+                    {
+                        case 0: nesp = 12; break; //ID
+                        case 1: nesp = 30; break; //Cliente
+                        case 2: nesp = 30; break; // Produto
+                        case 3: nesp = 50; break; // Desc
+                        case 4: nesp = 9; break; // Valor
+                        case 5: nesp = 12; break; // Data
+                        case 6: nesp = 12; break; // Data
+                        case 7: nesp = 12; break; // Data
+                        default: nesp = 12; break;
+                    }
+                    for (int i = 0; i < (nesp - ent.Length); i++)
+                    {
+                        novoEnt += " ";
+                    }
+                    
+                    if (itemEnt >= 7)
+                    {
+
+                        itemEnt = 0;
+                    }
+                    else
+                    {
+                        itemEnt++;
+                    }
+
+
+                }
+                txtPedidos.Text = novoPed;
+                txtEntregas.Text = novoEnt;
             }
             catch
             {

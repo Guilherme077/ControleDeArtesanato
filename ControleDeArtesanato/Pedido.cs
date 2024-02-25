@@ -39,12 +39,12 @@ namespace ControleDeArtesanato
         {
             if(DataEntrega != new DateTime(2023, 1, 1))
             {
-                return ID + "     " + NomeCliente + "     " + NomeProduto + "     " + Descricao + "     " + Valor + "     " + DataEncomenda.ToString("dd/MM/yyyy") + "     " + DataEntregaPrevisao.ToString("dd/MM/yyyy") + "     " + DataEntrega.ToString("dd/MM/yyyy");
+                return "     " + ID + "     " + NomeCliente + "     " + NomeProduto + "     " + Descricao + "     " + Valor + "     " + DataEncomenda.ToString("dd/MM/yyyy") + "     " + DataEntregaPrevisao.ToString("dd/MM/yyyy") + "     " + DataEntrega.ToString("dd/MM/yyyy");
 
             }
             else
             {
-                return ID + "     " + NomeCliente + "     " + NomeProduto + "     " + Descricao + "     " + Valor + "     " + DataEncomenda.ToString("dd/MM/yyyy") + "     " + DataEntregaPrevisao.ToString("dd/MM/yyyy");
+                return "     " + ID + "     " + NomeCliente + "     " + NomeProduto + "     " + Descricao + "     " + Valor + "     " + DataEncomenda.ToString("dd/MM/yyyy") + "     " + DataEntregaPrevisao.ToString("dd/MM/yyyy");
 
             }
         }
